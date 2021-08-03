@@ -6,10 +6,15 @@ use App\Models\Categorie;
 use App\Models\Budget;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Budget_Categories;
 
 class BudgetController extends Controller
 {
+
+    public function __construct(){
+        $this->middleware('auth')->except(['index']);
+    }
 
     private function getId()
     {
@@ -107,8 +112,15 @@ class BudgetController extends Controller
      */
     public function edit()
     {
+        if(auth()->guest()){
+            abort(403);
+        }
+
         $budget = $this->getId();
-        $categorie = Categorie::all();
+
+        abort_unless($budget->user_id === auth()->id, 403);
+        
+        $categorie = Categorie::all()->where('visible', '=', 1);
         return view('budget.edit')->with(['budget' => $budget,'categories' => $categorie]);
     }
 
@@ -151,8 +163,14 @@ class BudgetController extends Controller
      */
     public function destroy()
     {
-        
+        if(auth()->guest()){
+            abort(403);
+        }
+
         $budget = $this->getId();
+        
+        abort_unless(Gate::allows('forceDelete', $budget), 403);
+
         $budget->delete();
         //Budget_Categories::delete_Categorie($budget->id, (int)$request['categorie']);
         return $this->index()->with([
