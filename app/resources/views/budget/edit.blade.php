@@ -13,12 +13,10 @@
                         <div class="form-group">
                             <label for="name">Preis</label>
                             <input type="text" class="form-control" id="price" name="price" value="{{$budget->price}}">
-
                         </div>
                         <div class="form-group">
                             <label for="name">Datum</label>
                             <input type="date" class="form-control" id="date" name="date" value="{{date('Y-m-d', strtotime($budget->created_at))}}">
-
                         </div>
                         <div class="form-group">
                             <label for="kategorie">Kategorie</label>

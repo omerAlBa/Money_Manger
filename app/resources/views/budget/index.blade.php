@@ -10,19 +10,33 @@
                     <div class="card-body">
                         <ul class="list-group">
                             @foreach($budgets as $budget)
-                                <li class="list-group-item">
-                                    <a href="/Budget/{{ $budget->id }}">
+                                <div class="card mb-4 box-shadow">
+                                    <div class="card-header">
+                                        <a href="/Budget/{{ $budget->id }}">
                                             {{$budget->categorie->name}}
-                                    </a>
-                                    <small>{{$budget->notiz}}</small>
-                                    <a class="btn btn-primary ml-5" href="/Budget/{{ $budget->id }}/edit">edit</a>
-                                    <form action="/Budget/{{ $budget->id }}" method="post" class="btn btn-primary">
-                                        @csrf
-                                        @method("DELETE")
-                                        <input type="submit" value="kill me!" style="border:none; background:none;" />
-                                    </form>
-
-                                <li>
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                    <h1 class="card-title pricing-card-title">€ {{$budget->price}} <small class="text-muted">/ {{date('d M y', strtotime($budget->created_at))}}</small></h1>
+                                        <ul class="list-unstyled mt-3 mb-4">
+                                        <a class="btn btn-primary toggle_" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                            Notizen
+                                        </a>
+                                        <div class="collapse" id="collapseExample">
+                                            <div class="card card-body">
+                                                {{$budget->notiz}}
+                                            </div>
+                                        </div>
+                                            <li>von / <span class="name_user">{{$budget->user->name}}</span></li>
+                                        </ul>
+                                        <a class="btn btn-primary ml-5" href="/Budget/{{ $budget->id }}/edit">edit</a>
+                                        <form action="/Budget/{{ $budget->id }}" method="post" class="btn btn-primary">
+                                            @csrf
+                                            @method("DELETE")
+                                            <input type="submit" value="kill me!" style="border:none; background:none;" />
+                                        </form>
+                                    </div>
+                                </div>
                             @endforeach
                         </ul>
                         @auth
@@ -34,4 +48,16 @@
         </div>
     </div>
 </main>
+
+<script>
+document.querySelector('.toggle_').addEventListener('click',function(){
+    if(document.querySelector('#collapseExample').classList.contains('collapse.show')){
+        document.querySelector('#collapseExample').classList.add('collapse')
+    } else {
+        document.querySelector('#collapseExample').classList.remove('collapse')
+    }
+
+    document.querySelector('#collapseExample').classList.toggle('collapse.show')
+})
+</script>
 @endsection

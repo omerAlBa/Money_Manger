@@ -11,19 +11,15 @@
                         <ul class="list-group">
                             @foreach($categories as $categorie)
                                 <li class="list-group-item">
-                                    <a href="/Budget/{{ $categorie->id }}">{{ $categorie->name}}</a>
-                                    <a class="btn btn-primary ml-5" href="/Budget/{{ $categorie->id }}/edit">edit</a>
-                                    <form action="/Budget/{{ $categorie->id }}" method="post" class="btn btn-primary">
-                                        @csrf
-                                        @method("DELETE")
-                                        <input type="submit" value="kill me!" style="border:none; background:none;" />
-                                    </form>
-
-                                <li>
+                                    <a href="/Categorie/{{ $categorie->id }}">{{ $categorie->name}}</a>
+                                    @auth
+                                        <a class="btn btn-primary ml-5" href="/Categorie/{{ $categorie->id }}/edit">edit</a>
+                                    @endauth
+                                </li>
                             @endforeach
                         </ul>
                         @auth
-                        <a href="/categorie/create" class="btn btn-primary" style="margin-top:15px;">to create!</a>
+                        <a href="/Categorie/create" class="btn btn-primary" style="margin-top:15px;">to create!</a>
                         @endauth
                     </div>
                 </div>
