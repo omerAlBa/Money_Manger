@@ -9,6 +9,10 @@ use App\Controller\Budget_Categorie;
 
 class CategorieController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth')->except(['index']);
+    }
+
     private function getId()
     {
         preg_match_all('/([0-9]+)/m', $_SERVER["PATH_INFO"], $matches, PREG_SET_ORDER, 0);
@@ -55,7 +59,7 @@ class CategorieController extends Controller
         $result = new Categorie([
                 'name' => $request['name'],
                 'kind_of' => (int)$request['kind_of'],
-                'notiz' => $request['notiz'] | null
+                'visble' => 1
         ]);
         $result->save();
 
@@ -112,21 +116,18 @@ class CategorieController extends Controller
      */
     public function update(Request $request, Categorie $categorie)
     {
-        if($created_budget){
-            
-        }
-
         $request->validate([
-            'price' => 'required',
-            'created_at' => 'required',
+            'name' => 'required|min:3',
+            'kind_of' => 'required',
+            'onoff' => 'required',
         ]);
 
         //update to DB
         $categorie = $this->getId();
         $categorie->update([
-            'price' => $request['price'],
-            'created_at' => $request['created'],
-            'notiz' => $request['notiz']
+            'name' => $request['name'],
+            'visible' => (int)$request['onoff'],
+            'kind_of' => (int)$request['kind_of'],
         ]);
 
         return $this->index()->with([
@@ -142,10 +143,8 @@ class CategorieController extends Controller
      */
     public function destroy(Categorie $categorie)
     {
-        $categorie = $this->getId();
-        $categorie->delete();
         return $this->index()->with([
-            "meldung_success" => "Kauf wurde gelöscht"
+            "meldung_success" => "Kategorien sind nicht Löschbar!"
         ]);
     }
 }
