@@ -7,6 +7,7 @@ use App\Models\Categorie;
 
 class Budget_Categories extends Controller
 {
+
     public static function update_Categorie($budget_id,$categorie_id){
         dump($categorie_id);
         $categorie = Categorie::find($categorie_id);
