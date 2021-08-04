@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Budget_Categories;
+use Illuminate\Support\Facades\DB;
 
 class BudgetController extends Controller
 {
@@ -30,9 +31,24 @@ class BudgetController extends Controller
      */
     public function index()
     {
-        $budget = Budget::all();
+        //list for the share able Categories
+        $list_share_able_categorie = Categorie::all()->where('share_able', '=', 1)->pluck('id');
+        
+         $budgets = Budget::all()
+            ->where('user_id',auth()->id());
+        
+        $budget2 = Budget::all()
+            ->whereIn('categorie_id',$list_share_able_categorie);
+
+        foreach($budget2 as $buget_share_able){
+            $budgets->push($buget_share_able);
+        };
+
+        $budgets = $budgets->unique();
+        
+        //$budget = DB::select("select * from budgets WHERE user_id = 2 OR categorie_id in (5)");
         return view('budget.index')
-            ->with(['budgets' => $budget]);
+            ->with(['budgets' => $budgets]);
     }
 
     /**

@@ -59,7 +59,8 @@ class CategorieController extends Controller
         $result = new Categorie([
                 'name' => $request['name'],
                 'kind_of' => (int)$request['kind_of'],
-                'visble' => 1
+                'visble' => 1,
+                'share_able' => (int)$request['share_able'],
         ]);
         $result->save();
 

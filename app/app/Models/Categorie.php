@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Categorie extends Model
 {
     protected $table = 'categories';
-    protected $fillable = ['name','status','budget_id','kind_of','visible'];
+    protected $fillable = ['name','status','budget_id','kind_of','visible','share_able'];
 
     public function budgets(){
         return $this->hasMany('App\Models\Budget');

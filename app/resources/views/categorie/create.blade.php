@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Erstelle einen neue Kategorie</div>
+                <div class="card-header">Erstelle eine neue Kategorie</div>
                 <div class="card-body">
                     <form action="/Categorie" method="post">
                         @csrf
@@ -16,7 +16,8 @@
                                 <small class="text-danger">{!! $errors->first('name') !!}</small>
                             @endif
                         </div>
-                        <br />
+                        <hr />
+                        <h5>Art der Kategorie</h5>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="kind_of" id="flexRadioDefault1" value="0" checked>
                             <label class="form-check-label" for="flexRadioDefault1">
@@ -29,6 +30,14 @@
                                 Inveest
                             </label>
                         </div>
+                        <hr />
+                        <h5>Sichtbarkeit der Kategorie</h5>
+                        <div class="form-check">
+                            <label class="form-check-label" for="flexCheckBox">
+                                Sichtbar für alle
+                            </label>
+                            <input class="form-check-input" type="checkbox" name="share_able" id="flexCheckBox">
+                        </div>
                         <input class="btn btn-primary mt-4" type="submit" value="absenden">
                     </form>
 
@@ -37,4 +46,13 @@
         </div>
     </div>
 </div>
+<script>
+    let flexCheckBox = document.querySelector('#flexCheckBox');
+    flexCheckBox.addEventListener('change', (event)=>{
+        if (event.target.value != "1") {
+            return event.target.value = "1";
+        }
+        event.target.value = "0";
+    });
+</script>
 @endsection

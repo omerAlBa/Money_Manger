@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
 
 class Budget extends Model
 {
-    
     protected $fillable = ["kategorie","price","description","categorie_id","user_id",'notiz'];
     protected $table = 'budgets';
 
